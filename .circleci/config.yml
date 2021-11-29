@@ -22,6 +22,7 @@ commands:
               --stack-name << parameters.front-end-stack-name >>
             aws cloudformation delete-stack \ 
               --stack-name << parameters.back-end-stack-name >>
+
 orbs:
   slack: circleci/slack@4.1
 jobs:
@@ -162,8 +163,33 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      # Here's where you will add some code to rollback on failure      
+      # Here's where you will add some code to rollback on failure  
+      - destroy-environment    
 
+  configure-infrastructure:
+    docker:
+      - image: ansible/ansible
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints:
+            - "15:50:c8:c4:24:93:f2:48:04:81:ea:af:56:50:58:4d"
+      # attach workspace
+      - attach_workspace:
+          at: project/.circleci/ansible/inventory.txt
+      - run:
+          name: Install dependencies
+          command: |
+            apt-get -y tar gzip awscli ansible
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-server.yml
+      # Here's where you will add some code to rollback on failure   
+      - destroy-environment   
 
   notify:
     docker:
