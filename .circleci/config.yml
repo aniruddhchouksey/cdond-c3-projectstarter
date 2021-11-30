@@ -18,10 +18,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack \
-              --stack-name << parameters.front-end-stack-name >>
-            aws cloudformation delete-stack \ 
-              --stack-name << parameters.back-end-stack-name >>
+            aws cloudformation delete-stack --stack-name << parameters.front-end-stack-name >>
+            aws cloudformation delete-stack --stack-name << parameters.back-end-stack-name >>
 
 orbs:
   slack: circleci/slack@4.1
