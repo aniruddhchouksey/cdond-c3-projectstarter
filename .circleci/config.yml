@@ -186,6 +186,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apt-get update
             apt-get install -y tar gzip awscli ansible
       - run:
           name: Configure server
