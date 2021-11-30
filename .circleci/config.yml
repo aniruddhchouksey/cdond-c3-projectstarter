@@ -172,7 +172,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ansible/ansible
+      - image: ansible/ansible:ubuntu1604py3
     steps:
       # Checkout code from git
       - checkout
@@ -215,6 +215,29 @@ jobs:
                 curl -H "Content-Type: text/plain" -H "token: 8a5de0ef-4ce5-4f14-94d4-cd149817f23c" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
               fi
       # Here's where you will add some code to rollback on failure      
+  deploy-frontend:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      # Checkout code from git
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            yum install ansible python3 nodejs -y
+      - run:
+          name: Get backend url
+          command: |
+            # your code here
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "${API_URL}"
+      - run:
+          name: Deploy frontend objects
+          command: |
+            # your code here
+      # Here's where you will add some code to rollback on failure      
+
 
   notify:
     docker:
