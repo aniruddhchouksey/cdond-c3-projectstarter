@@ -188,6 +188,7 @@ jobs:
           command: |
             apt-get update
             apt-get install -y tar gzip awscli
+            rm /etc/ansible/ -rf
             apt-get install ansible -y --force-yes
       - run:
           name: Configure server
