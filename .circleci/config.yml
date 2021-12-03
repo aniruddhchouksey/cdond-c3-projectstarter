@@ -181,7 +181,7 @@ jobs:
       - slack-fail-notification
   configure-infrastructure:
     docker:
-      - image: willhallonline/2.11-centos-7
+      - image: willhallonline/ansible:2.11-centos-7
     steps:
       # Checkout code from git
       - checkout
