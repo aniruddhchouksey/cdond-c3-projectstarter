@@ -172,7 +172,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ansible/ansible:ubuntu1604py3
+      - image: ansible/centos7-ansible
     steps:
       # Checkout code from git
       - checkout
@@ -186,10 +186,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt-get update
-            apt-get install -y tar gzip awscli
-            rm /etc/ansible/ -rf
-            apt-get install ansible -y --force-yes
+            yum update -y
+            yum install -y tar gzip awscli
       - run:
           name: Configure server
           command: |
@@ -272,10 +270,10 @@ workflows:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - run-migrations:
-          requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
+      #- run-migrations:
+      #    requires: [configure-infrastructure]
+      #- deploy-frontend:
+      #    requires: [run-migrations]
       # - deploy-backend:
       #     requires: [run-migrations]
       # - smoke-test:
