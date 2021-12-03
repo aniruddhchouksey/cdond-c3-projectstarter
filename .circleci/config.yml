@@ -173,7 +173,7 @@ jobs:
               --region ${AWS_DEFAULT_REGION} --output text >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
       - persist_to_workspace:
-          root: project
+          root: /root/project
           paths:
             - .circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure  
@@ -191,7 +191,7 @@ jobs:
             - "15:50:c8:c4:24:93:f2:48:04:81:ea:af:56:50:58:4d"
       # attach workspace
       - attach_workspace:
-          at: project
+          at: /root/project
       - run:
           name: Install dependencies
           command: |
