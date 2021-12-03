@@ -263,6 +263,7 @@ workflows:
       - deploy-infrastructure:
           context: slack-context
       - configure-infrastructure:
+          requires: [deploy-infrastructure]
           context: slack-context
   # default:
   #   jobs:
