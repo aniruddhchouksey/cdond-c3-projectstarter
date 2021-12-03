@@ -4,8 +4,7 @@ commands:
   slack-fail-notification:
     description: Send notification to slack channel that the job failed
     steps:
-      - slack/status:
-          fail_only: true
+      - slack/notify:
           event: on_fail
           mentions: "@aniruddhc"
           message: build failed horribly :(
@@ -260,8 +259,7 @@ jobs:
 workflows:
   send-notification:
     jobs:
-      - notify:
-          context: slack-context
+      - deploy-infrastructure
   default:
     jobs:
       - build-frontend
