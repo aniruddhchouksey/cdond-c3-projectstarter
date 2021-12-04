@@ -344,10 +344,9 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-                # Change this to 0 after the job fails
-              return 1
+              echo "Frontend smoke passed"
             else
-              return 1
+              exit 1
             fi
       - run:
           name: Get backend url
@@ -370,9 +369,9 @@ jobs:
               fi
       
       # Here's where you will add some code to rollback on failure  
-      # - destroy-environment
-      # - slack-fail-notification
-      # - revert-migrations
+      - destroy-environment
+      - slack-fail-notification
+      - revert-migrations
 
   # cloudfront-update:
   #   docker:
