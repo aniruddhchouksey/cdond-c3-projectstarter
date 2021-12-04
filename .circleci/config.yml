@@ -245,7 +245,7 @@ jobs:
           command: |
             # your code here
             curl -sL https://rpm.nodesource.com/setup_10.x | bash -
-            yum install jq ansible python3 nodejs -y
+            yum install tar jq ansible python3 nodejs -y
       - run:
           name: Get backend url
           command: |
