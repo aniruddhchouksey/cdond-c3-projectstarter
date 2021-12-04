@@ -20,6 +20,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            aws s3 rm  s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
 
@@ -61,6 +62,7 @@ jobs:
           paths: [backend/node_modules]
           key: backend-build
       - slack-fail-notification
+  
   test-frontend:
     docker: 
       - image: circleci/node:13.8.0
@@ -79,6 +81,7 @@ jobs:
             npm install
             npm run test
       - slack-fail-notification
+  
   test-backend:
     docker: 
       - image: circleci/node:13.8.0
@@ -97,6 +100,7 @@ jobs:
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
       - slack-fail-notification
+  
   scan-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -116,6 +120,7 @@ jobs:
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
       - slack-fail-notification
+  
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -239,6 +244,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
+            curl -sL https://rpm.nodesource.com/setup_10.x | bash -
             yum install jq ansible python3 nodejs -y
       - run:
           name: Get backend url
@@ -281,7 +287,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip awscli jq
+            curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+            yum install -y tar gzip awscli jq nodejs
       - run:
           name: Deploy backend
           command: |
@@ -307,7 +314,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install jq ansible python3 nodejs -y
+            yum install curl jq ansible python3 nodejs -y
       - run:
           name: Get backend url
           command: |
