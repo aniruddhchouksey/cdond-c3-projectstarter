@@ -15,5 +15,4 @@
   become: true
   shell: |
     cd /home/ubuntu
-    env
     pm2 start npm --name backend -- start
